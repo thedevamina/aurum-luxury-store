@@ -1,0 +1,129 @@
+<svg width="1200" height="360" viewBox="0 0 1200 360" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0b1220"/>
+      <stop offset="50%" stop-color="#0f1b30"/>
+      <stop offset="100%" stop-color="#132542"/>
+    </linearGradient>
+
+    <linearGradient id="titleGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#38bdf8">
+        <animate attributeName="stop-color" values="#38bdf8;#60a5fa;#38bdf8" dur="7s" repeatCount="indefinite"/>
+      </stop>
+      <stop offset="50%" stop-color="#7dd3fc"/>
+      <stop offset="100%" stop-color="#60a5fa">
+        <animate attributeName="stop-color" values="#60a5fa;#38bdf8;#60a5fa" dur="7s" repeatCount="indefinite"/>
+      </stop>
+    </linearGradient>
+
+    <radialGradient id="glow1" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#38bdf8" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#38bdf8" stop-opacity="0"/>
+    </radialGradient>
+    <radialGradient id="glow2" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#60a5fa" stop-opacity="0.3"/>
+      <stop offset="100%" stop-color="#60a5fa" stop-opacity="0"/>
+    </radialGradient>
+
+    <filter id="soft" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="20"/>
+    </filter>
+
+    <clipPath id="rounded">
+      <rect width="1200" height="360" rx="24" ry="24"/>
+    </clipPath>
+  </defs>
+
+  <g clip-path="url(#rounded)">
+    <rect width="1200" height="360" fill="url(#bg)"/>
+
+    <circle cx="160" cy="80" r="180" fill="url(#glow1)" filter="url(#soft)">
+      <animate attributeName="cy" values="80;100;80" dur="8s" repeatCount="indefinite"/>
+    </circle>
+    <circle cx="1060" cy="90" r="200" fill="url(#glow2)" filter="url(#soft)">
+      <animate attributeName="cy" values="90;70;90" dur="9s" repeatCount="indefinite"/>
+    </circle>
+
+    <g opacity="0.15" fill="#7dd3fc">
+      <circle cx="90" cy="50" r="1.6"/>
+      <circle cx="200" cy="35" r="1.6"/>
+      <circle cx="1000" cy="55" r="1.6"/>
+      <circle cx="1100" cy="90" r="1.6"/>
+      <circle cx="140" cy="260" r="1.6"/>
+      <circle cx="1080" cy="270" r="1.6"/>
+      <circle cx="600" cy="40" r="1.6"/>
+    </g>
+
+    <!-- Shopping bag icon, left -->
+    <g transform="translate(100,55)" opacity="0.85">
+      <animateTransform attributeName="transform" type="translate" values="100,55;100,63;100,55" dur="6s" repeatCount="indefinite"/>
+      <path d="M8,18 L72,18 L66,80 L14,80 Z" fill="none" stroke="#7dd3fc" stroke-width="2.5"/>
+      <path d="M24,18 C24,4 56,4 56,18" fill="none" stroke="#7dd3fc" stroke-width="2.5"/>
+    </g>
+
+    <!-- Diamond / luxury gem icon, right -->
+    <g transform="translate(1010,55)" opacity="0.8">
+      <animateTransform attributeName="transform" type="translate" values="1010,55;1010,47;1010,55" dur="7s" repeatCount="indefinite"/>
+      <path d="M10,0 L60,0 L70,24 L35,70 L0,24 Z" fill="none" stroke="#7dd3fc" stroke-width="2.2"/>
+      <path d="M0,24 L70,24 M22,0 L35,24 L48,0 M35,24 L35,70" fill="none" stroke="#7dd3fc" stroke-width="1.4" opacity="0.7"/>
+    </g>
+
+    <g fill="#7dd3fc">
+      <g opacity="0.9">
+        <animate attributeName="opacity" values="0.9;0.25;0.9" dur="2.4s" repeatCount="indefinite"/>
+        <path d="M120,220 L126,234 L140,240 L126,246 L120,260 L114,246 L100,240 L114,234 Z"/>
+      </g>
+      <g opacity="0.7">
+        <animate attributeName="opacity" values="0.25;0.9;0.25" dur="3.1s" repeatCount="indefinite"/>
+        <path d="M1080,220 L1084,230 L1094,234 L1084,238 L1080,248 L1076,238 L1066,234 L1076,230 Z"/>
+      </g>
+      <g opacity="0.8">
+        <animate attributeName="opacity" values="0.4;1;0.4" dur="2.8s" repeatCount="indefinite"/>
+        <path d="M300,50 L304,59 L313,63 L304,67 L300,76 L296,67 L287,63 L296,59 Z"/>
+      </g>
+      <g opacity="0.6">
+        <animate attributeName="opacity" values="0.8;0.15;0.8" dur="3.6s" repeatCount="indefinite"/>
+        <path d="M900,270 L903,277 L910,280 L903,283 L900,290 L897,283 L890,280 L897,277 Z"/>
+      </g>
+      <circle cx="240" cy="290" r="2.5" opacity="0.7">
+        <animate attributeName="opacity" values="0.7;0.1;0.7" dur="2.2s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="960" cy="150" r="2.2" opacity="0.8">
+        <animate attributeName="opacity" values="0.2;0.9;0.2" dur="2.6s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="330" cy="45" r="1.8" opacity="0.6">
+        <animate attributeName="opacity" values="0.6;1;0.6" dur="3.3s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="1150" cy="180" r="2" opacity="0.5">
+        <animate attributeName="opacity" values="0.5;0.9;0.5" dur="3.8s" repeatCount="indefinite"/>
+      </circle>
+      <circle cx="70" cy="170" r="1.8" opacity="0.6">
+        <animate attributeName="opacity" values="0.9;0.3;0.9" dur="2.7s" repeatCount="indefinite"/>
+      </circle>
+    </g>
+
+    <path d="M0,300 C150,270 300,325 500,300 C700,275 900,255 1100,285 C1150,292 1180,297 1200,295 L1200,360 L0,360 Z"
+          fill="#1e3a5f" opacity="0.6"/>
+    <path d="M0,320 C200,295 420,335 650,318 C850,304 1000,292 1200,312 L1200,360 L0,360 Z"
+          fill="#274a72" opacity="0.5"/>
+
+    <rect width="1200" height="360" rx="24" ry="24" fill="none" stroke="#7dd3fc" stroke-opacity="0.12" stroke-width="1.5"/>
+  </g>
+
+  <text x="600" y="150" font-family="Segoe UI, Arial, sans-serif" font-size="72" font-weight="800"
+        text-anchor="middle" fill="url(#titleGrad)" letter-spacing="4">
+    AURUM
+  </text>
+
+  <text x="600" y="196" font-family="Segoe UI, Arial, sans-serif" font-size="20" font-weight="500"
+        text-anchor="middle" fill="#cbd5e1" letter-spacing="0.5">
+    Luxury E-Commerce Platform &#8226; Laravel &#8226; React &#8226; TypeScript
+  </text>
+
+  <rect x="510" y="220" width="180" height="3" rx="1.5" fill="url(#titleGrad)"/>
+
+  <text x="600" y="262" font-family="Segoe UI, Arial, sans-serif" font-size="15" font-style="italic"
+        text-anchor="middle" fill="#94a3b8" opacity="0.9">
+    security-first, from checkout to admin
+  </text>
+</svg>

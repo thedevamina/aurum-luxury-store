@@ -1,0 +1,170 @@
+import { useEffect, useState } from 'react';
+import { Plus, Edit, Trash2 } from 'lucide-react';
+import DataTable, { type Column } from '@/admin/components/ui/DataTable';
+import { PageHeader, StatusBadge, AdminInput, AdminTextarea } from '@/admin/components/ui/AdminUI';
+import Modal from '@/admin/components/ui/Modal';
+import AdminButton from '@/admin/components/ui/AdminButton';
+import { useToastContext } from '@/admin/context/ToastContext';
+import {
+  fetchAdminCategories,
+  createAdminCategory,
+  updateAdminCategory,
+  deleteAdminCategory,
+  type AdminCategory,
+} from '@/lib/products';
+import { ApiError } from '@/lib/api';
+
+export default function Categories() {
+  const { show } = useToastContext();
+  const [categories, setCategories] = useState<AdminCategory[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editing, setEditing] = useState<AdminCategory | null>(null);
+  const [isSaving, setIsSaving] = useState(false);
+
+  const [form, setForm] = useState({ name: '', description: '' });
+  const [imageFile, setImageFile] = useState<File | null>(null);
+
+  const loadCategories = async () => {
+    setIsLoading(true);
+    try {
+      const data = await fetchAdminCategories();
+      setCategories(data);
+    } catch {
+      show('Failed to load categories', 'error');
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    loadCategories();
+  }, []);
+
+  const openAdd = () => {
+    setEditing(null);
+    setForm({ name: '', description: '' });
+    setImageFile(null);
+    setModalOpen(true);
+  };
+
+  const openEdit = (c: AdminCategory) => {
+    setEditing(c);
+    setForm({ name: c.name, description: c.description ?? '' });
+    setImageFile(null);
+    setModalOpen(true);
+  };
+
+  const handleSave = async () => {
+    setIsSaving(true);
+    try {
+      const fd = new FormData();
+      fd.append('name', form.name);
+      fd.append('description', form.description);
+      if (imageFile) fd.append('image', imageFile);
+
+      if (editing) {
+        await updateAdminCategory(editing.id, fd);
+        show('Category updated');
+      } else {
+        await createAdminCategory(fd);
+        show('Category created');
+      }
+      setModalOpen(false);
+      await loadCategories();
+    } catch (err) {
+      show(err instanceof ApiError ? err.message : 'Failed to save category', 'error');
+    } finally {
+      setIsSaving(false);
+    }
+  };
+
+  const handleDelete = async (c: AdminCategory) => {
+    if (!confirm(`Delete "${c.name}"? This cannot be undone.`)) return;
+    try {
+      await deleteAdminCategory(c.id);
+      show('Category deleted');
+      await loadCategories();
+    } catch (err) {
+      // Backend correctly refuses to delete categories that still have products
+      show(err instanceof ApiError ? err.message : 'Failed to delete category', 'error');
+    }
+  };
+
+  const columns: Column<AdminCategory>[] = [
+    {
+      key: 'name', label: 'Category', sortable: true,
+      render: (c) => (
+        <div className="flex items-center gap-3">
+          <img src={c.image ?? ''} alt="" className="h-10 w-10 rounded object-cover bg-white/5" />
+          <span className="text-cream">{c.name}</span>
+        </div>
+      ),
+    },
+    { key: 'slug', label: 'Slug' },
+    { key: 'product_count', label: 'Products', sortable: true },
+    {
+      key: 'product_count', label: 'Status',
+      render: (c) => <StatusBadge status={c.product_count > 0 ? 'Active' : 'Empty'} 
+
+
+
+  ];
+
+  return (
+    <div>
+      <PageHeader
+        title="Categories"
+        subtitle={isLoading ? 'Loading...' : `${categories.length} categories`}
+        action={<AdminButton onClick={openAdd}><Plus size={16} /> Add Category</AdminButton>}
+      />
+      <div className="glass rounded-lg p-6">
+        <DataTable
+          data={categories}
+          columns={columns}
+          searchKeys={['name', 'slug']}
+          searchPlaceholder="Search categories..."
+          emptyMessage={isLoading ? 'Loading...' : 'No categories found'}
+          actions={(item) => (
+            <div className="flex items-center justify-end gap-2">
+              <button onClick={() => openEdit(item)} className="text-cream/40 hover:text-gold"><Edit size={16} /></button>
+              <button onClick={() => handleDelete(item)} className="text-cream/40 hover:text-red-400"><Trash2 size={16} /></button>
+            </div>
+          )}
+        />
+      </div>
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title={editing ? 'Edit Category' : 'Add Category'}>
+        <div className="space-y-4">
+          <AdminInput
+            label="Category Name"
+            placeholder="e.g. Watches"
+            value={form.name}
+            onChange={(e) => setForm({ ...form, name: e.target.value })}
+          />
+          <AdminTextarea
+            label="Description"
+            rows={3}
+            placeholder="Category description..."
+            value={form.description}
+            onChange={(e) => setForm({ ...form, description: e.target.value })}
+          />
+          <div>
+            <label className="mb-1.5 block text-xs uppercase tracking-widest text-cream/50">Category Image</label>
+            <input
+              type="file"
+              accept="image/jpeg,image/png,image/webp"
+              onChange={(e) => setImageFile(e.target.files?.[0] ?? null)}
+              className="w-full text-sm text-cream/60 file:mr-4 file:rounded-md file:border-0 file:bg-gold/10 file:px-4 file:py-2 file:text-xs file:uppercase file:tracking-widest file:text-gold"
+            />
+          </div>
+          <div className="flex justify-end gap-3 pt-4">
+            <AdminButton variant="outline" onClick={() => setModalOpen(false)}>Cancel</AdminButton>
+            <AdminButton onClick={handleSave} disabled={isSaving}>
+              {isSaving ? 'Saving...' : editing ? 'Save Changes' : 'Create Category'}
+            </AdminButton>
+          </div>
+        </div>
+      </Modal>
+    </div>
+  );
+}
